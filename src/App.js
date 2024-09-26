@@ -1,7 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { init } from "./store/redusers/commentSlice";
 
 function App() {
+  const dispatch = useDispatch();
+  // useEffect(() => {
+  //   fetch("https://reqbin.com/echo/get/json", {
+  //     method: "GET",
+  //     headers: {
+  //       Accept: "application/json",
+  //     },
+  //   })
+  //     .then((response) => response.json())
+  //     .then((response) => console.log(JSON.stringify(response)));
+  //   dispatch(init([1, 1, 2]));
+  // }, []);
+
   return (
     <div className="App">
       <header className="App-header">
