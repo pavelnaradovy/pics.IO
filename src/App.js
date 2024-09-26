@@ -6,17 +6,17 @@ import { init } from "./store/redusers/commentSlice";
 
 function App() {
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   fetch("https://reqbin.com/echo/get/json", {
-  //     method: "GET",
-  //     headers: {
-  //       Accept: "application/json",
-  //     },
-  //   })
-  //     .then((response) => response.json())
-  //     .then((response) => console.log(JSON.stringify(response)));
-  //   dispatch(init([1, 1, 2]));
-  // }, []);
+
+  useEffect(() => {
+    fetch("https://dummyjson.com/comments", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => dispatch(init(response.comments)));
+  }, []);
 
   return (
     <div className="App">
