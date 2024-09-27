@@ -1,12 +1,34 @@
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { init, removeById } from "../store/redusers/commentSlice";
 
-const CommentSection = () => {
-  
+const Comments = () => {
+  const comments = useSelector((state) => state.commentSlice.comments);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetch("https://dummyjson.com/comments", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => dispatch(init(response.comments)));
+    // .then((response) => dispatch(removeById(1)));
+  }, []);
 
   return (
     <div>
-      <H1>Comments</H1>
+      <h1>Comments</h1>
+      <cdiv>
+        {comments?.map((e) => {
+          return <div>{e.id}</div>;
+        })}
+      </cdiv>
     </div>
   );
 };
-export default CommentSection;
+export default Comments;
