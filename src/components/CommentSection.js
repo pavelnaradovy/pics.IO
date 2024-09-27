@@ -12,6 +12,12 @@ const Comments = () => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
+    const text = localStorage.getItem("text");
+
+    if (text) {
+      setMessage(text);
+    }
+
     fetch("https://dummyjson.com/comments", {
       method: "GET",
       headers: {
@@ -20,8 +26,22 @@ const Comments = () => {
     })
       .then((response) => response.json())
       .then((response) => dispatch(init(response.comments)));
-    // .then((response) => dispatch(removeById(1)));
   }, []);
+
+  useEffect(() => {
+    const scroll = localStorage.getItem("scroll");
+
+    if (scroll) {
+      console.log(111, parseInt(scroll, 10));
+
+      window.scrollTo(400, parseInt(scroll, 10));
+    }
+  }, [comments]);
+
+  document.addEventListener("scroll", (event) => {
+    const lastKnownScrollPosition = window.scrollY;
+    localStorage.setItem("scroll", lastKnownScrollPosition);
+  });
 
   const onSubmit = () => {
     dispatch(
@@ -33,11 +53,13 @@ const Comments = () => {
       })
     );
     setMessage("");
+    localStorage.removeItem("text");
   };
+
   return (
     <div>
       <h1>Comments</h1>
-      <div className={styles.comments}>
+      <div className={styles.comments} id="comment">
         {comments?.map((e) => {
           return (
             <div key={e.id} className={styles.comment}>
@@ -48,9 +70,10 @@ const Comments = () => {
                 version="1.1"
                 id="Layer_1"
                 xmlns="http://www.w3.org/2000/svg"
-                onClick={()=>{dispatch(removeById(e.id))}}
+                onClick={() => {
+                  dispatch(removeById(e.id));
+                }}
                 viewBox="0 0 1792 1792"
-
               >
                 <path
                   d="M1082.2,896.6l410.2-410c51.5-51.5,51.5-134.6,0-186.1s-134.6-51.5-186.1,0l-410.2,410L486,300.4
@@ -74,7 +97,10 @@ const Comments = () => {
         <input
           placeholder="Text your message"
           value={message}
-          onChange={(e) => setMessage(e.currentTarget.value)}
+          onChange={(e) => {
+            setMessage(e.currentTarget.value);
+            localStorage.setItem("text", e.currentTarget.value);
+          }}
         />
         <button onClick={message.length > 1 ? onSubmit : () => {}}>Send</button>
       </div>
