@@ -21,6 +21,6 @@ export const commentSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { init, removeById, incrementByAmount } = commentSlice.actions;
+export const { init, removeById, add } = commentSlice.actions;
 
 export default commentSlice.reducer;

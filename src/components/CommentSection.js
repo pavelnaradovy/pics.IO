@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { init, removeById } from "../store/redusers/commentSlice";
+import { init, removeById, add } from "../store/redusers/commentSlice";
 import styles from "./comments.module.sass";
 
 const Comments = () => {
@@ -23,6 +23,17 @@ const Comments = () => {
     // .then((response) => dispatch(removeById(1)));
   }, []);
 
+  const onSubmit = () => {
+    dispatch(
+      add({
+        id: comments[comments.length - 1].id + 1,
+        body: message,
+        postId: 777,
+        likes: 0,
+      })
+    );
+    setMessage("");
+  };
   return (
     <div>
       <h1>Comments</h1>
@@ -32,7 +43,7 @@ const Comments = () => {
             <div key={e.id} className={styles.comment}>
               <img
                 alt="123"
-                src={`https://ui-avatars.com/api/name=${e.body.slice(
+                src={`https://ui-avatars.com/api/name=${e.body?.slice(
                   0,
                   1
                 )}&background=random`}
@@ -46,9 +57,9 @@ const Comments = () => {
         <input
           placeholder="Text your message"
           value={message}
-          onChange={(e) => setMessage(e.value)}
+          onChange={(e) => setMessage(e.currentTarget.value)}
         />
-        <button>Send</button>
+        <button onClick={message.length > 1 ? onSubmit : () => {}}>Send</button>
       </div>
     </div>
   );
