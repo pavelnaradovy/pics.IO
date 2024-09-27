@@ -11,16 +11,16 @@ export const commentSlice = createSlice({
     init: (state, action) => {
       state.comments = action.payload;
     },
-    decrement: (state) => {
-      state.value -= 1;
+    removeById: (state, action) => {
+      state.comments = state.comments.filter((e) => e.id !== action.payload);
     },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
+    add: (state, action) => {
+      state.comments = [...state.comments, action.payload];
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { init, decrement, incrementByAmount } = commentSlice.actions;
+export const { init, removeById, incrementByAmount } = commentSlice.actions;
 
 export default commentSlice.reducer;
