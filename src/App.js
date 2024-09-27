@@ -2,7 +2,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { init } from "./store/redusers/commentSlice";
+import { init, removeById } from "./store/redusers/commentSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -15,8 +15,8 @@ function App() {
       },
     })
       .then((response) => response.json())
-      // .then((response) => dispatch(init(response.comments)));
-      console.log("ssss");
+      .then((response) => dispatch(init(response.comments)))
+      .then((response) => dispatch(removeById(1)));
       
   }, []);
 
